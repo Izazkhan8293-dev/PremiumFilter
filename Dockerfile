@@ -1,13 +1,16 @@
-FROM python:3.10
-#.          👆👆
-#change 3.10 to 3.11.2 if you depolying heroku or koyeb
+FROM python:3.12.2
 
-WORKDIR /TamilanBotsz
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt ./
+WORKDIR /DreamxBotz
 
-RUN pip install -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip --root-user-action=ignore && \
+    pip install --no-cache-dir -r requirements.txt --root-user-action=ignore
 
-copy . .
+COPY . .
 
 CMD ["python3", "bot.py"]
